@@ -231,27 +231,40 @@ QuerySelector polyfill
 
 			return extendedQS;
 		})(),
-		regPlaceholder = /\{\{[^\ }]+\}\}/gi;
+		regPlaceholder = /\{\{([^\} \.]+)([\.a-zA-Z0-9_]*)\}\}/gi;
 
-		return function(htmlElement) {
+		var Mutagen = function(htmlElement, preProcessor) {
 			/*
 			Search for all placeholders
 			*/
 			var template = this,
 			matches = template.match(regPlaceholder),
 			replacings = {};
+			
 			matches.forEach(function(dph) {
-				var placeholder = dph.substring(2, dph.length-2);
+				regPlaceholder.lastIndex = 0;
+				var placeholderData = regPlaceholder.exec(dph),
+				placeholder = placeholderData[1],
+				keyname = placeholderData[2]!==""?placeholderData[2].substr(1) : 'innerHTML';
+				
 				if ("undefined"!==typeof replacings[placeholder]) return true;
-				replacings[placeholder] = '';
+				replacings[dph] = '';
 
 				var elements = extendedQuerySelector(placeholder, htmlElement);
-				if (elements) replacings[placeholder] = elements[0].innerHTML;
+				if (elements) {
+					replacings[dph] = elements[0][keyname];
+				}
 			});
+			if ("function"===typeof preProcessor) preProcessor.call(htmlElement, replacings);
+
 			each(replacings, function(content, ph) {
-				template = template.replace('{{'+ph+'}}', content);
+				template = template.replace(ph, content);
 			});
 			htmlElement.innerHTML = template;
 			return template;
 		}
+
+		Mutagen.query = extendedQuerySelector;
+
+		return Mutagen;
 });
