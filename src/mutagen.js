@@ -13,7 +13,7 @@ MIT License 2015
 QuerySelector polyfill
 */
 (function(name, depends, factory) {
-	if (window && window.define && "function"===typeof define && define.amd) define(name, depends, factory)
+	if (window && window.define && "function"===typeof define) define(name, depends, factory)
 	else {
 		String.prototype.mutate = factory();
 	}

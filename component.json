@@ -2,7 +2,7 @@
   "name": "mutagen",
   "repository": "abstudio/mutagen",
   "description": "Mutate HTML by another HTML",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": ["amd","module","parser","webcomponents"],
   "dependencies": {},
   "scripts": [
