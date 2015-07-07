@@ -250,9 +250,13 @@ QuerySelector polyfill
 				if ("undefined"!==typeof replacings[placeholder]) return true;
 				replacings[dph] = '';
 
-				var elements = extendedQuerySelector(placeholder, htmlElement);
-				if (elements) {
-					replacings[dph] = elements[0][keyname];
+				if (placeholder==='content') {
+					replacings[dph] = htmlElement.innerHTML;
+				} else {
+					var elements = extendedQuerySelector(placeholder, htmlElement);
+					if (elements) {
+						replacings[dph] = elements[0][keyname];
+					}
 				}
 			});
 			if ("function"===typeof preProcessor) preProcessor.call(htmlElement, replacings);
