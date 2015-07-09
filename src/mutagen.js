@@ -255,7 +255,7 @@ QuerySelector polyfill
 				} else {
 					var elements = extendedQuerySelector(placeholder, htmlElement);
 					if (elements) {
-						replacings[dph] = elements[0][keyname];
+						replacings[dph] = "undefined"!==typeof elements[0] ? elements[0][keyname] : "";
 					}
 				}
 			});
