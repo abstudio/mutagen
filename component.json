@@ -2,10 +2,10 @@
   "name": "mutagen",
   "repository": "abstudio/mutagen",
   "description": "Mutate HTML by another HTML",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "keywords": ["amd","module","parser","webcomponents"],
   "dependencies": {
-    "polyvitamins/querySelector": "0.0.2"
+    "polyvitamins/querySelector": "0.0.3"
     },
   "scripts": [
     "src/mutagen.js"
