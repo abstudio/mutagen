@@ -18,7 +18,7 @@ QuerySelector polyfill
 		String.prototype.mutate = factory();
 	}
 })
-("subzero", ["polyvitamins~querySelector@0.0.2"], function(extendedQuerySelector) {
+("subzero", ["polyvitamins~querySelector@0.0.3"], function(extendedQuerySelector) {
 	
 	var regPseudoClasssDt = /:(eq|nth\-child)\(([0-9n\+ ]+)\)/ig,
 	queryExpr = /<([a-zA-Z0-9_]+) \/>/i,
