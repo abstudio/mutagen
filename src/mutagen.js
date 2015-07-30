@@ -26,7 +26,7 @@ QuerySelector polyfill
 				}
 			}
 		},
-		regPlaceholder = /\{\{([^\} \.]+)([\.a-zA-Z0-9_]*)\}\}/gi;
+		regPlaceholder = /\{\{([^\} \.]*)([\.~a-zA-Z0-9_]*)\}\}/gi;
 
 		var Mutagen = function(htmlElement, preProcessor, postProcessor) {
              var template = this, matches = template.match(regPlaceholder), replacings = {};
@@ -41,9 +41,35 @@ QuerySelector polyfill
                 if (placeholder === "content") {
                     replacings[dph] = htmlElement.innerHTML;
                 } else {
-                    var elements = extendedQuerySelector(placeholder, htmlElement);
+
+                    var elements = placeholder === '' ? [htmlElement] : extendedQuerySelector(placeholder, htmlElement);
                     if (elements) {
-                        replacings[dph] = "undefined" !== typeof elements[0] ? elements[0][keyname] : replacings[dph] || "";
+                        if ("undefined" !== typeof elements[0]) {
+                            if (keyname.substr(0,1)==='~') {
+                                /*
+                                Поиск среди аттрибутов
+                                */
+                                keyname = keyname.substr(1); 
+                                replacings[dph] = '';
+                                for (var z = 0; z < elements[0].attributes.length; z++) {
+                                    if (elements[0].attributes[z].name === keyname) {
+                                        replacings[dph] = elements[0].attributes[z].value;
+                                        break;
+                                    }
+                                }
+                            } else if ("undefined"!==typeof elements[0][keyname]) {
+                                 replacings[dph] = elements[0][keyname];
+                            } else {
+                               
+                                replacings[dph] = 'undefined';
+                            }
+                            
+                        } else {
+                            replacings[dph] = replacings[dph] || "";
+                        }
+                        
+
+                        
                     }
                 }
             });
